@@ -41,6 +41,12 @@ return [
             'database' => env("MONGODB_DATABASE"),
         ],
 
+        'mongodb_test' => [
+            'driver' => 'mongodb',
+            'dsn' => 'mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000',
+            'database' => "watermelon",
+        ],
+
         'sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DATABASE_URL'),
