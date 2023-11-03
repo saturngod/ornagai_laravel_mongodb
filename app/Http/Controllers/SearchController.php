@@ -8,25 +8,54 @@ use App\Strategies\MyanmarDictionary;
 use App\Utils\Utils;
 
 use Illuminate\Http\Request;
+use MongoDB\Laravel\Eloquent\Model;
 
 class SearchController extends Controller
 {
-    function __construct(protected DictionaryRepo $dictionaryRepo) {}
-    function search(Request $request) {
+    public function __construct(protected DictionaryRepo $dictionaryRepo, protected Utils $utils) {}
+    
+    private function _setupDictionary(string $word) {
+        if($this->utils->isMyanmar($word)) {
+            $this->dictionaryRepo->setDictionary(new MyanmarDictionary());
+        } else {
+            $this->dictionaryRepo->setDictionary(new EnglishDictionary());
+        }
+    }
+
+    private function _search(string $word) {
+        return $this->dictionaryRepo->search($word, "word");
+    }
+
+    private function _getDictionaryDetail(string $word): Model {
+        return $this->dictionaryRepo->detail($word);
+    }
+
+    public function search(Request $request)
+    {
         $request->validate([
             'word' => 'required'
         ]);
-        $utils = new Utils();
-
-        if($utils->isMyanmar($request->word, )) {
-            $this->dictionaryRepo->setDictionary(new MyanmarDictionary());
-        }
-        else {
-            $this->dictionaryRepo->setDictionary(new EnglishDictionary());
-        }
-
-        $result = $this->dictionaryRepo->search($request->word,"word");
-        return response()->json($result);
         
+        $this->_setupDictionary($request->word);
+        
+        $result = $this->_search($request->word);
+        
+        return response()->json($result);
+
+    }
+
+    public function detail(Request $request)
+    {
+        if($request->word == "") {
+            abort(404);
+        }
+
+        $this->_setupDictionary($request->word);
+
+        $data = $this->_getDictionaryDetail($request->word);
+        $word = $request->word;
+        return view('home/index',compact('data','word'));
+        
+
     }
 }

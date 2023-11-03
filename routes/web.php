@@ -18,3 +18,5 @@ use App\Http\Controllers\HomeController;
 Route::get('/',[HomeController::class,'index']);
 
 Route::get('/search',[SearchController::class,'search'])->name('search');
+
+Route::get('/word/{word}',[SearchController::class,'detail'])->name('word.detail');

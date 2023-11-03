@@ -8,6 +8,7 @@ use App\Models\English;
 use App\Models\Myanmar;
 use App\Utils\Utils;
 use Illuminate\Database\Eloquent\Collection;
+use MongoDB\Laravel\Eloquent\Model;
 class DictionaryRepo implements IDictionaryRepo {
 
     private ILanguageDictionary $dictionary;
@@ -21,7 +22,7 @@ class DictionaryRepo implements IDictionaryRepo {
     public function search(string $word,string $select = "*"): Collection {
         return $this->dictionary->search($word, $select);
     }
-    public function detail(string $word): Collection {
-        return $this->dictionary->detail($word);
+    public function detail(string $word): Model {
+        return $this->dictionary->detail($word)->first();
     }
 }
