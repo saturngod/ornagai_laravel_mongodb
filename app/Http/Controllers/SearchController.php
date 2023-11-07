@@ -28,10 +28,20 @@ class SearchController extends Controller
     }
 
     private function _search(string $word) {
+
+        if (!isset($this->dictionaryRepo)) {
+            throw new \Exception("Dictionary not set");
+        }
+
         return $this->dictionaryRepo->search($word, "word");
     }
 
     private function _getDictionaryDetail(string $word): Model {
+
+        if (!isset($this->dictionaryRepo)) {
+            throw new \Exception("Dictionary not set");
+        }
+        
         return $this->dictionaryRepo->detail($word);
     }
 
