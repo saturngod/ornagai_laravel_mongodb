@@ -2,8 +2,6 @@
 
 namespace App\Strategies;
 use App\Interfaces\ILanguageDictionary;
-use App\Models\Dict;
-use App\Models\English;
 use Elastic\Elasticsearch\Client;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -63,6 +61,11 @@ class ElasticSearchDictionary implements ILanguageDictionary {
         return [];
     }
     public function detail(string $word): Collection {
+
+        if (!isset($this->dictionary)) {
+            throw new \Exception("Dictionary not set");
+        }
+        
         return $this->dictionary->detail($word);
     }
 }
