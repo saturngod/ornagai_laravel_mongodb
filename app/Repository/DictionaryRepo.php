@@ -20,9 +20,20 @@ class DictionaryRepo implements IDictionaryRepo {
     }
 
     public function search(string $word,string $select = "*"): array {
+
+        if (!isset($this->dictionary)) {
+            throw new \Exception("Dictionary not set");
+        }
+
         return $this->dictionary->search($word, $select);
     }
     public function detail(string $word): Model {
+
+        if (!isset($this->dictionary)) {
+            throw new \Exception("Dictionary not set");
+        }
+
+        
         return $this->dictionary->detail($word)->first();
     }
 }
