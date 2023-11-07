@@ -7,8 +7,13 @@ use App\Models\MyDict;
 use Illuminate\Database\Eloquent\Collection;
 
 class MyanmarDictionary implements ILanguageDictionary {
-    public function search(string $word,string $select = "*",int $limit = 30): Collection {
-        return Myanmar::select($select)->project(['_id' => 0])->where("word","like",$word ."%")->limit($limit)->get();
+    public function search(string $word,string $select = "*",int $limit = 30): array {
+        $results = Myanmar::select($select)->project(['_id' => 0])->where("word","like",$word ."%")->limit($limit)->get();
+        $words = [];
+        foreach ($results as $result) {
+            $words[] = $result->word;
+        }
+        return $words;
     }
 
     public function detail(string $word): Collection {

@@ -122,7 +122,7 @@
             var route = "{{ route('word.detail', ':id') }}";
 
             for (var i = 0; i < data.length; i++) {
-                const text = data[i].word;
+                const text = data[i];
                 const url = route.replace(":id", text);
                 content += `
             <li>

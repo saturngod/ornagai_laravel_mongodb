@@ -3,23 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Repository\DictionaryRepo;
+use App\Strategies\ElasticSearchDictionary;
 use App\Strategies\EnglishDictionary;
 use App\Strategies\MyanmarDictionary;
 use App\Utils\Utils;
 
+use Elastic\Elasticsearch\Client;
 use Illuminate\Http\Request;
 use MongoDB\Laravel\Eloquent\Model;
 
 class SearchController extends Controller
 {
-    public function __construct(protected DictionaryRepo $dictionaryRepo, protected Utils $utils) {}
+    public function __construct(protected DictionaryRepo $dictionaryRepo, protected Utils $utils, protected Client $elasticSearch) {}
     
     private function _setupDictionary(string $word) {
+            $elasticSearchDictionary = new ElasticSearchDictionary($this->elasticSearch);
         if($this->utils->isMyanmar($word)) {
-            $this->dictionaryRepo->setDictionary(new MyanmarDictionary());
+            $elasticSearchDictionary->setDictionary(new MyanmarDictionary());
+            
         } else {
-            $this->dictionaryRepo->setDictionary(new EnglishDictionary());
+            $elasticSearchDictionary->setDictionary(new EnglishDictionary());
         }
+        $this->dictionaryRepo->setDictionary($elasticSearchDictionary);
     }
 
     private function _search(string $word) {

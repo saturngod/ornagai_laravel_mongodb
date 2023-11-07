@@ -19,7 +19,7 @@ class DictionaryRepo implements IDictionaryRepo {
         $this->dictionary = $dictionary;
     }
 
-    public function search(string $word,string $select = "*"): Collection {
+    public function search(string $word,string $select = "*"): array {
         return $this->dictionary->search($word, $select);
     }
     public function detail(string $word): Model {
