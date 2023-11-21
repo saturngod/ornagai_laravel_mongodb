@@ -2,7 +2,7 @@
 namespace App\Strategies;
 
 use App\Interfaces\ILanguageDictionary;
-
+use Illuminate\Database\Eloquent\Collection;
 
 abstract class BaseDictionary implements ILanguageDictionary {
     protected $model;
