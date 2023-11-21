@@ -1,4 +1,6 @@
 <?php
+namespace App\Strategies;
+
 use App\Interfaces\ILanguageDictionary;
 
 
