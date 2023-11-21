@@ -18,3 +18,5 @@ class FullTextSearchModel extends Model
 
     }
 }
+
+

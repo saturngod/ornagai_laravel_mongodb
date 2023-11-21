@@ -17,7 +17,9 @@ class SearchController extends Controller
     public function __construct(protected DictionaryRepo $dictionaryRepo, protected Utils $utils, protected Client $elasticSearch) {}
     
     private function _setupDictionary(string $word) {
-            $elasticSearchDictionary = new ElasticSearchDictionary($this->elasticSearch);
+
+        $elasticSearchDictionary = new ElasticSearchDictionary($this->elasticSearch);
+        
         if($this->utils->isMyanmar($word)) {
             $elasticSearchDictionary->setDictionary(new MyanmarDictionary());
             
