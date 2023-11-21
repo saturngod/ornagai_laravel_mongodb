@@ -4,7 +4,7 @@ namespace App\Strategies;
 
 use App\Models\Dict;
 use App\Models\English;
-use BaseDictionary;
+
 use Illuminate\Database\Eloquent\Collection;
 
 class EnglishDictionary extends BaseDictionary {
