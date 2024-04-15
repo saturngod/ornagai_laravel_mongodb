@@ -14,19 +14,17 @@ use MongoDB\Laravel\Eloquent\Model;
 
 class SearchController extends Controller
 {
-    public function __construct(protected DictionaryRepo $dictionaryRepo, protected Utils $utils, protected Client $elasticSearch) {}
+    public function __construct(protected DictionaryRepo $dictionaryRepo, protected Utils $utils) {}
     
     private function _setupDictionary(string $word) {
 
-        $elasticSearchDictionary = new ElasticSearchDictionary($this->elasticSearch);
-        
         if($this->utils->isMyanmar($word)) {
-            $elasticSearchDictionary->setDictionary(new MyanmarDictionary());
+            $this->dictionaryRepo->setDictionary(new MyanmarDictionary());
             
         } else {
-            $elasticSearchDictionary->setDictionary(new EnglishDictionary());
+            $this->dictionaryRepo->setDictionary(new EnglishDictionary());
         }
-        $this->dictionaryRepo->setDictionary($elasticSearchDictionary);
+        
     }
 
     private function _search(string $word) {
